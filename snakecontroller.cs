@@ -2,20 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SnakeController : MonoBehaviour {
+public class PlayerController : MonoBehaviour {
 
     // Settings
-    public float MoveSpeed = 5;
-    public float SteerSpeed = 180;
-    public float BodySpeed = 5;
-    public int Gap = 10;
+
+    [SerializeField] private float MoveSpeed = 5;
+    [SerializeField] private Rigidbody rigidbody;
+    //public float SteerSpeed = 180;
+    
 
     // References
     public GameObject BodyPrefab;
 
     // Lists
-    private List<GameObject> BodyParts = new List<GameObject>();
-    private List<Vector3> PositionsHistory = new List<Vector3>();
 
     // Start is called before the first frame update
     void Start() {
@@ -26,10 +25,10 @@ public class SnakeController : MonoBehaviour {
     void Update() {
 
         // Move forward
-        transform.position += transform.forward * MoveSpeed * Time.deltaTime;
+        var direction = new Vector3(Input.GetAxis("Horizontal"),0, Input.GetAxis("Vertical"));
 
-        // Steer
-        float steerDirection = Input.GetAxis("Horizontal"); // Returns value -1, 0, or 1
-        transform.Rotate(Vector3.up * steerDirection * SteerSpeed * Time.deltaTime);
+        
+        rigidbody.velocity = direction * MoveSpeed;
+        
         }
     }
